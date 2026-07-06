@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>GPA Calculator</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>GPA & CGPA Calculator</h1>
+
+    <h3>Calculate Semester GPA</h3>
+    <div id="course-container">
+        <div class="row">
+            <input type="number" class="credits" placeholder="Credits (e.g. 4)">
+            <input type="number" class="grade" placeholder="Grade Points (e.g. 9)">
+        </div>
+        <div class="row">
+            <input type="number" class="credits" placeholder="Credits">
+            <input type="number" class="grade" placeholder="Grade Points">
+        </div>
+    </div>
+    <button onclick="addInputRow()">+ Add Row</button>
+    <button onclick="calculateGPA()">Calculate GPA</button>
+    <p id="gpa-display">Semester GPA: </p>
+
+    <hr>
+
+
+    <h3>Calculate Running CGPA</h3>
+    <p>Enter your total credits and CGPA before this current semester:</p>
+    <input type="number" id="past-credits" placeholder="Past Total Credits">
+    <input type="number" id="past-cgpa" placeholder="Past CGPA">
+    <button onclick="calculateCGPA()">Calculate CGPA</button>
+    <p id="cgpa-display">Running CGPA: </p>
+
+    <hr>
+
+ 
+    <h3>"What-If" Graduation Forecast</h3>
+    <input type="number" id="target" placeholder="Target CGPA (e.g. 8.5)">
+    <input type="number" id="sems-left" placeholder="Semesters Left">
+    <button onclick="whatIfSimulation()">Run Simulation</button>
+    <p id="simulation-display"></p>
+
+
+   
+    <script>
+        var currentCredits = 0;
+        var currentPoints = 0;
+
+        function addInputRow() {
+            var container = document.getElementById("course-container");
+            var newRow = document.createElement("div");
+            newRow.className = "row";
+            newRow.innerHTML = '<input type="number" class="credits" placeholder="Credits"> <input type="number" class="grade" placeholder="Grade Points">';
+            container.appendChild(newRow);
+        }
+
+        function calculateGPA() {
+            var creditsArray = document.getElementsByClassName("credits");
+            var gradesArray = document.getElementsByClassName("grade");
+            var totalCredits = 0;
+            var totalPoints = 0;
+            for (var i = 0; i < creditsArray.length; i++) {
+                var credit = parseFloat(creditsArray[i].value);
+                var grade = parseFloat(gradesArray[i].value);
+                if (!isNaN(credit) && !isNaN(grade)) {
+                    totalCredits += credit;
+                    totalPoints += (credit * grade);
+                }
+            }
+            if (totalCredits === 0) {
+                document.getElementById("gpa-display").innerText = "Semester GPA: Enter numbers first.";
+                return;
+            }
+            currentCredits = totalCredits;
+            currentPoints = totalPoints;
+            var gpa = totalPoints / totalCredits;
+            document.getElementById("gpa-display").innerText = "Semester GPA: " + gpa.toFixed(2);
+        }
+
+        function calculateCGPA() {
+            var pastCredits = parseFloat(document.getElementById("past-credits").value) || 0;
+            var pastCGPA = parseFloat(document.getElementById("past-cgpa").value) || 0;
+            if (currentCredits === 0) {
+                document.getElementById("cgpa-display").innerText = "Running CGPA: Calculate GPA above first!";
+                return;
+            }
+            var pastPoints = pastCredits * pastCGPA;
+            var totalOverallCredits = pastCredits + currentCredits;
+            var totalOverallPoints = pastPoints + currentPoints;
+            var cgpa = totalOverallPoints / totalOverallCredits;
+            document.getElementById("cgpa-display").innerText = "Running CGPA: " + cgpa.toFixed(2);
+        }
+
+        function whatIfSimulation() {
+            var target = parseFloat(document.getElementById("target").value);
+            var semsLeft = parseInt(document.getElementById("sems-left").value);
+            var pastCredits = parseFloat(document.getElementById("past-credits").value) || 0;
+            var pastCGPA = parseFloat(document.getElementById("past-cgpa").value) || 0;
+            var totalCreditsSoFar = pastCredits + currentCredits;
+            var totalPointsSoFar = (pastCredits * pastCGPA) + currentPoints;
+            if (totalCreditsSoFar === 0 || isNaN(target) || isNaN(semsLeft)) {
+                document.getElementById("simulation-display").innerText = "Calculate current status first.";
+                return;
+            }
+            var futureCredits = semsLeft * 20;
+            var finalCreditsAtGraduation = totalCreditsSoFar + futureCredits;
+            var totalPointsNeeded = target * finalCreditsAtGraduation;
+            var pointsNeededInFuture = totalPointsNeeded - totalPointsSoFar;
+            var targetFutureGPA = pointsNeededInFuture / futureCredits;
+            if (targetFutureGPA > 10) {
+                document.getElementById("simulation-display").innerText = "Impossible (requires " + targetFutureGPA.toFixed(2) + " GPA).";
+            } else if (targetFutureGPA < 0) {
+                document.getElementById("simulation-display").innerText = "Target already secured!";
+            } else {
+                document.getElementById("simulation-display").innerText = "Average a " + targetFutureGPA.toFixed(2) + " GPA over your remaining sems.";
+            }
+        }
+    </script>
+
+</body>
+</html>
