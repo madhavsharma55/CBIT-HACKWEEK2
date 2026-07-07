@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital Business Card Generator</title>
+    <style>
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f2f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: row;
+            gap: 40px;
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            max-width: 800px;
+            width: 100%;
+        }
+
+       
+        .form-section {
+            flex: 1;
+        }
+
+        h2 {
+            color: #333;
+            margin-top: 0;
+        }
+
+        .input-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            color: #555;
+            font-size: 14px;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            box-sizing: border-box;
+            font-size: 14px;
+        }
+
+        input:focus {
+            border-color: #007bff;
+            outline: none;
+        }
+
+       
+        .preview-section {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .card {
+            width: 350px;
+            height: 200px;
+            background: linear-gradient(135deg, #1f4068, #162447);
+            color: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+            overflow: hidden;
+        }
+
+        
+        .card::before {
+            content: '';
+            position: absolute;
+            top: -50px;
+            right: -50px;
+            width: 150px;
+            height: 150px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 50%;
+        }
+
+        .card-header h3 {
+            margin: 0;
+            font-size: 22px;
+            letter-spacing: 0.5px;
+        }
+
+        .card-header p {
+            margin: 5px 0 0 0;
+            font-size: 14px;
+            color: #cbd5e1;
+            font-weight: 300;
+        }
+
+        .card-body {
+            font-size: 13px;
+            color: #e2e8f0;
+            line-height: 1.6;
+        }
+
+        .card-body div {
+            margin-bottom: 4px;
+        }
+
+    
+        @media (max-width: 650px) {
+            .container {
+                flex-direction: column;
+            }
+            .card {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    
+    <div class="form-section">
+        <h2>Enter Details</h2>
+        
+        <div class="input-group">
+            <label for="nameInput">Full Name</label>
+            <input type="text" id="nameInput" placeholder="John Doe" oninput="updateCard()">
+        </div>
+
+        <div class="input-group">
+            <label for="roleInput">Title / Role</label>
+            <input type="text" id="roleInput" placeholder="Software Engineer" oninput="updateCard()">
+        </div>
+
+        <div class="input-group">
+            <label for="emailInput">Email Address</label>
+            <input type="email" id="emailInput" placeholder="john@example.com" oninput="updateCard()">
+        </div>
+
+        <div class="input-group">
+            <label for="phoneInput">Phone Number</label>
+            <input type="text" id="phoneInput" placeholder="+1 234 567 890" oninput="updateCard()">
+        </div>
+
+        <div class="input-group">
+            <label for="githubInput">GitHub / Portfolio Link</label>
+            <input type="text" id="githubInput" placeholder="github.com/johndoe" oninput="updateCard()">
+        </div>
+    </div>
+
+   
+    <div class="preview-section">
+        <div class="card">
+            <div class="card-header">
+                <h3 id="cardName">Your Name</h3>
+                <p id="cardRole">Your Title</p>
+            </div>
+            <div class="card-body">
+                <div id="cardEmail">📧 Email: info@domain.com</div>
+                <div id="cardPhone">📞 Phone: +00 000 00000</div>
+                <div id="cardGithub">🌐 Web: github.com/username</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    
+    function updateCard() {
+       
+        const name = document.getElementById('nameInput').value;
+        const role = document.getElementById('roleInput').value;
+        const email = document.getElementById('emailInput').value;
+        const phone = document.getElementById('phoneInput').value;
+        const github = document.getElementById('githubInput').value;
+
+      
+        document.getElementById('cardName').innerText = name ? name : "Your Name";
+        document.getElementById('cardRole').innerText = role ? role : "Your Title";
+        
+        document.getElementById('cardEmail').innerText = email ? `📧 ${email}` : "📧 Email: info@domain.com";
+        document.getElementById('cardPhone').innerText = phone ? `📞 ${phone}` : "📞 Phone: +00 000 00000";
+        document.getElementById('cardGithub').innerText = github ? `🌐 ${github}` : "🌐 Web: github.com/username";
+    }
+</script>
+
+</body>
+</html>
