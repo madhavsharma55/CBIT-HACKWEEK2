@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My First Soundboard</title>
+    <style>
+      
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f2f5;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        
+        .controls {
+            margin-bottom: 30px;
+            background: white;
+            padding: 15px 25px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .stop-btn {
+            background-color: #ff4d4d;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .stop-btn:hover {
+            background-color: #cc0000;
+        }
+
+        
+        .soundboard-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr); 
+            gap: 15px;
+            max-width: 600px;
+        }
+
+        .sound-btn {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 20px;
+            font-size: 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: transform 0.1s;
+        }
+
+        .sound-btn:hover {
+            background-color: #45a049;
+            transform: scale(1.05); 
+        }
+    </style>
+</head>
+<body>
+
+    <h1>My Soundboard</h1>
+
+    <div class="controls">
+        <button class="stop-btn" onclick="stopAll()">STOP ALL</button>
+        <label for="volume">Volume: </label>
+        <input type="range" id="volume" min="0" max="1" step="0.1" value="1" oninput="changeVolume(this.value)">
+    </div>
+
+    <div class="soundboard-grid">
+        <button class="sound-btn" onclick="playSound('sound1.mp3')">Sound 1</button>
+        <button class="sound-btn" onclick="playSound('sound2.mp3')">Sound 2</button>
+        <button class="sound-btn" onclick="playSound('sound3.mp3')">Sound 3</button>
+        <button class="sound-btn" onclick="playSound('sound4.mp3')">Sound 4</button>
+        <button class="sound-btn" onclick="playSound('sound5.mp3')">Sound 5</button>
+        <button class="sound-btn" onclick="playSound('sound6.mp3')">Sound 6</button>
+        <button class="sound-btn" onclick="playSound('sound7.mp3')">Sound 7</button>
+        <button class="sound-btn" onclick="playSound('sound8.mp3')">Sound 8</button>
+        <button class="sound-btn" onclick="playSound('sound9.mp3')">Sound 9</button>
+        <button class="sound-btn" onclick="playSound('sound10.mp3')">Sound 10</button>
+        <button class="sound-btn" onclick="playSound('sound11.mp3')">Sound 11</button>
+        <button class="sound-btn" onclick="playSound('sound12.mp3')">Sound 12</button>
+    </div>
+
+    <script>
+        // Keeping your exact variable names tracking the states
+        let currentAudio = null;
+        let currentVolume = 1; 
+
+      
+        const noteFrequencies = {
+            'sound1.mp3': 261.63,  
+            'sound2.mp3': 293.66,  
+            'sound3.mp3': 329.63,  
+            'sound4.mp3': 349.23,  
+            'sound5.mp3': 392.00,  
+            'sound6.mp3': 440.00,  
+            'sound7.mp3': 493.88,  
+            'sound8.mp3': 523.25,  
+            'sound9.mp3': 587.33,  
+            'sound10.mp3': 659.25, 
+            'sound11.mp3': 698.46, 
+            'sound12.mp3': 783.99  
+        };
+
+        function playSound(audioFile) {
+            
+            if (currentAudio) {
+                try { currentAudio.stop(); } catch(e) {}
+            }
+
+       
+            const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            
+      
+            currentAudio = audioCtx.createOscillator();
+            const gainNode = audioCtx.createGain();
+
+            
+            currentAudio.frequency.setValueAtTime(noteFrequencies[audioFile], audioCtx.currentTime);
+            gainNode.gain.setValueAtTime(currentVolume, audioCtx.currentTime);
+
+          
+            currentAudio.connect(gainNode);
+            gainNode.connect(audioCtx.destination);
+
+          
+            currentAudio.start();
+            gainNode.gain.exponentialRampToValueAtTime(0.00001, audioCtx.currentTime + 0.6);
+            currentAudio.stop(audioCtx.currentTime + 0.6);
+        }
+
+        function stopAll() {
+            if (currentAudio) {
+                try { currentAudio.stop(); } catch(e) {}
+            }
+        }
+
+        function changeVolume(volumeValue) {
+            currentVolume = parseFloat(volumeValue); 
+        }
+    </script>
+
+</body>
+</html>
