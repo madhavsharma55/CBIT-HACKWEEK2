@@ -84,7 +84,6 @@
             font-weight: bold;
         }
 
-        
         .calendar-grid {
             display: grid;
             grid-template-columns: repeat(10, 1fr); 
@@ -114,7 +113,7 @@
 </head>
 <body>
 
-    <h1>  Habit Tracker</h1>
+    <h1> Habit Tracker</h1>
 
     <div class="input-section">
         <input type="text" id="habitInput" placeholder="Enter a new habit...">
@@ -127,7 +126,6 @@
        
         let habits = [];
 
-        
         window.onload = function() {
             const savedHabits = localStorage.getItem('myHabits');
             if (savedHabits) {
@@ -146,7 +144,6 @@
                 return;
             }
 
-            
             const newHabit = {
                 id: Date.now(), 
                 name: habitText,
@@ -157,6 +154,12 @@
             habits.push(newHabit);
             saveAndRefresh();
             input.value = ''; 
+        }
+
+        
+        function deleteHabit(index) {
+            habits.splice(index, 1); 
+            saveAndRefresh();        
         }
 
         
@@ -174,23 +177,13 @@
 
             if (index === -1) 
             {
-               
                 habit.history.push(dayNumber);
             } else {
-                
                 habit.history.splice(index, 1);
             }
 
             
-            let currentStreak = 0;
-            for (let i = 1; i <= 30; i++) {
-                if (habit.history.includes(i)) {
-                    currentStreak++;
-                } else {
-                    break; 
-                }
-            }
-            habit.streak = currentStreak;
+            habit.streak = habit.history.length;
 
             saveAndRefresh();
         }
@@ -200,7 +193,7 @@
             const container = document.getElementById('habitContainer');
             container.innerHTML = ''; 
 
-            habits.forEach(habit => {
+            habits.forEach((habit, index) => {
                
                 const card = document.createElement('div');
                 card.className = 'habit-card';
@@ -208,8 +201,12 @@
             
                 const header = document.createElement('div');
                 header.className = 'habit-header';
+                
                 header.innerHTML = `
-                    <span class="habit-title">${habit.name}</span>
+                    <div>
+                        <span class="habit-title">${habit.name}</span>
+                        <button onclick="deleteHabit(${index})" style="background:#ff4d4d; color:white; border:none; padding:5px 10px; margin-left:10px; cursor:pointer; border-radius:4px; font-size:12px;">Delete</button>
+                    </div>
                     <span class="streak-badge">🔥 ${habit.streak} Day Streak</span>
                 `;
                 card.appendChild(header);
@@ -244,3 +241,5 @@
     </script>
 </body>
 </html>
+       
+  
