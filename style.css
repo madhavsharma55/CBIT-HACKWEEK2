@@ -1,35 +1,165 @@
-/* Very basic styling just to make it neat, no complex layouts */
+
 body {
-    font-family: Arial, sans-serif;
-    max-width: 500px;
-    margin: 30px auto;
-    padding: 20px;
-    border: 1px solid #ccc;
+    margin: 0;
+    padding: 0;
+    background-color: #f0f3f5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    font-family: sans-serif;
 }
 
-.row {
-    margin-bottom: 10px;
+
+.canvas {
+    width: 400px;
+    height: 400px;
+    position: relative;
 }
 
-input {
-    padding: 5px;
-    margin-right: 5px;
-    width: 150px;
+.tyson {
+    position: relative;
+    width: 100%;
+    height: 100%;
 }
 
-button {
-    padding: 6px 10px;
-    margin-top: 5px;
-    cursor: pointer;
+
+.face {
+    position: absolute;
+    top: 130px;
+    left: 100px;
+    width: 200px;
+    height: 200px;
+    background-color: #ffdbb5; /* Skin Tone */
+    border-radius: 50% 50% 60% 60%;
+    border: 4px solid #222;
+    z-index: 5;
 }
 
-hr {
-    margin: 25px 0;
-    border: 0;
-    border-top: 1px dashed #aaa;
+.headband {
+    position: absolute;
+    top: 15px;
+    left: -4px;
+    width: 200px;
+    height: 35px;
+    background-color: #ffffff;
+    border: 4px solid #222;
+    z-index: 10;
+}
+.headband-badge {
+    position: absolute;
+    top: 5px;
+    left: 85px;
+    width: 30px;
+    height: 25px;
+    background-color: #d11919; 
+    border-radius: 4px;
 }
 
-p {
-    font-weight: bold;
-    color: #333;
+
+.hair {
+    position: absolute;
+    background-color: #1a2a3a; 
+    border: 4px solid #222;
+}
+
+.hair-left {
+    top: 140px;
+    left: 60px;
+    width: 60px;
+    height: 60px;
+    border-radius: 0 100% 0 100%;
+    transform: rotate(-15deg);
+    z-index: 4;
+}
+
+.hair-right {
+    top: 140px;
+    left: 280px;
+    width: 60px;
+    height: 60px;
+    border-radius: 100% 0 100% 0;
+    transform: rotate(15deg);
+    z-index: 4;
+}
+
+.hair-top {
+    top: 60px;
+    left: 140px;
+    width: 120px;
+    height: 80px;
+    border-radius: 100% 100% 0 0;
+    z-index: 2;
+}
+
+
+.hat-back {
+    position: absolute;
+    top: 70px;
+    left: 110px;
+    width: 180px;
+    height: 70px;
+    background-color: #d11919; /* Tyson's Red Cap */
+    border: 4px solid #222;
+    border-radius: 100px 100px 0 0;
+    z-index: 3;
+}
+
+
+.eye {
+    position: absolute;
+    top: 75px;
+    width: 35px;
+    height: 45px;
+    background-color: #fff;
+    border: 3px solid #222;
+    border-radius: 50%;
+    overflow: hidden;
+}
+.eye-left { left: 35px; }
+.eye-right { right: 35px; }
+
+.pupil {
+    position: absolute;
+    top: 10px;
+    left: 8px;
+    width: 20px;
+    height: 25px;
+    background-color: #0d47a1; /* Blue Eyes */
+    border-radius: 50%;
+}
+
+
+.bandage {
+    position: absolute;
+    top: 125px;
+    width: 35px;
+    height: 15px;
+    background-color: #fff;
+    border: 2px solid #222;
+    transform: rotate(-15deg);
+}
+.bandage-left { left: 15px; }
+.bandage-right { 
+    right: 15px; 
+    transform: rotate(15deg); 
+}
+
+
+.nose {
+    position: absolute;
+    top: 120px;
+    left: 98px;
+    width: 4px;
+    height: 10px;
+    background-color: #222;
+}
+.mouth {
+    position: absolute;
+    top: 145px;
+    left: 75px;
+    width: 50px;
+    height: 20px;
+    border-bottom: 4px solid #222;
+    border-radius: 0 0 50% 50%;
 }
