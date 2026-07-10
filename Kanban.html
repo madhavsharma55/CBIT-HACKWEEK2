@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+  <h1>Simple Kanban</h1>
+
+  <input type="text" id="taskInput" placeholder="Enter task name...">
+  <button onclick="addTask()">Add Task</button>
+
+  <hr>
+
+  <div style="display: flex; gap: 30px;">
+    <div>
+      <h3>To Do</h3>
+      <div id="todoList"></div>
+    </div>
+    <div>
+      <h3>In Progress</h3>
+      <div id="progressList"></div>
+    </div>
+    <div>
+      <h3>Done</h3>
+      <div id="doneList"></div>
+    </div>
+  </div>
+
+  <script>
+    
+    let tasks = JSON.parse(localStorage.getItem('myTasks')) || [];
+
+   
+    function render() {
+     
+      document.getElementById('todoList').innerHTML = '';
+      document.getElementById('progressList').innerHTML = '';
+      document.getElementById('doneList').innerHTML = '';
+
+     
+      tasks.forEach((task, index) => 
+      {
+        const taskHtml = `
+          <div style="border: 1px solid black; padding: 5px; margin: 5px 0; width: 150px;">
+            <p style="margin: 0 0 5px 0;"><b>${task.text}</b></p>
+            
+            <select onchange="moveTask(${index}, this.value)">
+              <option value="todo" ${task.status === 'todo' ? 'selected' : ''}>To Do</option>
+              <option value="progress" ${task.status === 'progress' ? 'selected' : ''}>In Progress</option>
+              <option value="done" ${task.status === 'done' ? 'selected' : ''}>Done</option>
+            </select>
+            
+            <button onclick="deleteTask(${index})" style="color:red; margin-left:5px;">X</button>
+          </div>
+        `;
+
+       
+        if (task.status === 'todo') document.getElementById('todoList').innerHTML += taskHtml;
+        if (task.status === 'progress') document.getElementById('progressList').innerHTML += taskHtml;
+        if (task.status === 'done') document.getElementById('doneList').innerHTML += taskHtml;
+      });
+
+     
+      localStorage.setItem('myTasks', JSON.stringify(tasks));
+    }
+
+   
+    function addTask() 
+    {
+      const input = document.getElementById('taskInput');
+      if (input.value.trim() === '') 
+      return;
+      
+      tasks.push({ text: input.value, status: 'todo' });
+      input.value = ''; 
+      render();
+    }
+
+   
+    function moveTask(index, newStatus) {
+      tasks[index].status = newStatus;
+      render();
+    }
+
+   
+    function deleteTask(index) {
+      tasks.splice(index, 1);
+      render();
+    }
+
+    
+    render();
+  </script>
+
+</body>
+</html>
